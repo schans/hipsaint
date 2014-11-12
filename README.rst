@@ -41,11 +41,11 @@ Assuming you use Nagios 3 add the following sections to commands.cfg with ``<TOK
 
     define command {
         command_name    notify-host-by-hipchat
-        command_line    hipsaint --token=<TOKEN> --room=<ROOM_ID> --type=host --inputs="$HOSTNAME$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$HOSTSTATE$|$HOSTOUTPUT$" -n
+        command_line    hipsaint --token=<TOKEN> --room=<ROOM_ID> --type=host --inputs="$HOSTNAME$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$HOSTSTATE$|$HOSTOUTPUT$|$NOTIFICATIONAUTHOR$|$NOTIFICATIONCOMMENT$" -n
     }
     define command {
         command_name    notify-service-by-hipchat
-        command_line    hipsaint --token=<TOKEN> --room=<ROOM_ID> --type=service --inputs="$SERVICEDESC$|$HOSTALIAS$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$SERVICESTATE$|$SERVICEOUTPUT$" -n
+        command_line    hipsaint --token=<TOKEN> --room=<ROOM_ID> --type=service --inputs="$SERVICEDESC$|$HOSTALIAS$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$SERVICESTATE$|$SERVICEOUTPUT$|$NOTIFICATIONAUTHOR$|$NOTIFICATIONCOMMENT$" -n
     }
 
 To send less verbose messages to hipchat set the ``--type`` flag to either ``short-host`` or ``short-service``.
@@ -81,13 +81,13 @@ Hosts : /etc/icinga2/scripts/hipchat-host-notification.sh ::
     
     #!/bin/sh
     
-    hipsaint --user=Icinga --token=<TOKEN> --room=<ROOM_ID> --type=host --inputs="$HOSTNAME$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$HOSTSTATE$|$HOSTOUTPUT$" -n
+    hipsaint --user=Icinga --token=<TOKEN> --room=<ROOM_ID> --type=host --inputs="$HOSTNAME$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$HOSTSTATE$|$HOSTOUTPUT$|$NOTIFICATIONAUTHOR$|$NOTIFICATIONCOMMENT$" -n
 
 Services : /etc/icinga2/scripts/hipchat-service-notification.sh ::
 
     #!/bin/sh
 
-    hipsaint --user=Icinga --token=<TOKEN> --room=<ROOM_ID> --type=service --inputs="$SERVICEDESC$|$HOSTALIAS$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$SERVICESTATE$|$SERVICEOUTPUT$" -n
+    hipsaint --user=Icinga --token=<TOKEN> --room=<ROOM_ID> --type=service --inputs="$SERVICEDESC$|$HOSTALIAS$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$SERVICESTATE$|$SERVICEOUTPUT$|$NOTIFICATIONAUTHOR$|$NOTIFICATIONCOMMENT$" -n
 
 Then you need to tell Icinga to use those scripts :
 
@@ -107,6 +107,8 @@ Create a file called ``hipsaint.conf`` in your ``conf.d`` directory ::
 
       env = {
         NOTIFICATIONTYPE = "$notification.type$"
+        NOTIFICATIONAUTHOR = "$notification.author$"
+        NOTIFICATIONCOMMENT = "$notification.comment$"
         SERVICEDESC = "$service.name$"
         HOSTALIAS = "$host.display_name$"
         HOSTADDRESS = "$address$"
@@ -123,6 +125,8 @@ Create a file called ``hipsaint.conf`` in your ``conf.d`` directory ::
 
       env = {
         NOTIFICATIONTYPE = "$notification.type$"
+        NOTIFICATIONAUTHOR = "$notification.author$"
+        NOTIFICATIONCOMMENT = "$notification.comment$"
         SERVICEDESC = "$service.name$"
         HOSTALIAS = "$host.display_name$"
         HOSTADDRESS = "$address$"

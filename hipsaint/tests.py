@@ -24,13 +24,14 @@ def mock_hipchat_error_request(mock_method):
 
 class MessageTest(unittest.TestCase):
     def setUp(self):
-        #"$HOSTNAME$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$HOSTSTATE$|$HOSTOUTPUT$"
+        #"$HOSTNAME$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$HOSTSTATE$|$HOSTOUTPUT$|
+        # $NOTIFICATIONAUTHOR$|$NOTIFICATIONCOMMENT$"
         self.host_inputs = 'hostname|%(longdatetime)s|%(notificationtype)s|127.0.0.1|' \
-                           '%(hoststate)s|NAGIOS_OUTPUT'
-        #"$SERVICEDESC$|$HOSTALIAS$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$SERVICESTATE$
-        # |$SERVICEOUTPUT$"
+                           '%(hoststate)s|NAGIOS_OUTPUT|author|comment'
+        #"$SERVICEDESC$|$HOSTALIAS$|$LONGDATETIME$|$NOTIFICATIONTYPE$|$HOSTADDRESS$|$SERVICESTATE$|
+        # $SERVICEOUTPUT$|$NOTIFICATIONAUTHOR$|$NOTIFICATIONCOMMENT$"
         self.service_inputs = 'servicedesc|hostalias|%(longdatetime)s|%(notificationtype)s|' \
-                              '127.0.0.1|%(servicestate)s|NAGIOS_OUTPUT'
+                              '127.0.0.1|%(servicestate)s|NAGIOS_OUTPUT|author|comment'
 
     @mock.patch('hipsaint.messages.urlopen')
     def test_ok_payload_delivery(self, mock_get):
