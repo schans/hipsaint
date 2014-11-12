@@ -11,7 +11,7 @@ host_template = """
 <pre>{hostoutput}</pre>
 """
 
-host_short_template = """[{ntype}] {hostname}: {hostoutput}"""
+host_short_template = """[{ntype}] <strong>{hostname}</strong>: {hostoutput}"""
 
 service_template = """
 <strong>{timestamp} - {servicedesc} on {hostalias} (nagios@{nagios_host})</strong><br/>
@@ -22,7 +22,7 @@ service_template = """
 <pre>{serviceoutput}</pre>
 """
 
-service_short_template = "[{ntype}] {hostalias} {servicedesc}: {serviceoutput}"
+service_short_template = "[{ntype}] <strong>{hostalias}</strong> {servicedesc}: {serviceoutput}"
 
 
 templates = {'host': host_template, 'short-host': host_short_template,
